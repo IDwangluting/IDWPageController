@@ -1,0 +1,23 @@
+PODS:
+  - WWBaseLib (0.0.2)
+  - WWPageController (0.1.0):
+    - WWBaseLib
+
+DEPENDENCIES:
+  - WWPageController (from `../`)
+
+SPEC REPOS:
+  https://github.com/cocoapods/specs.git:
+    - WWBaseLib
+
+EXTERNAL SOURCES:
+  WWPageController:
+    :path: "../"
+
+SPEC CHECKSUMS:
+  WWBaseLib: 1888781d7bdb8b87826d3ad37997034bc685e2f3
+  WWPageController: eb1f1db3e514d70a245800613da77c9f6d892b31
+
+PODFILE CHECKSUM: 44e5a0041859963dbe4a65e9a1b522ab4f3a8d60
+
+COCOAPODS: 1.5.3

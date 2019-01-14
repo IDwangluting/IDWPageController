@@ -1,0 +1,6 @@
+framework module WWPageController {
+  umbrella header "WWPageController-umbrella.h"
+
+  export *
+  module * { export * }
+}
