@@ -5,7 +5,4 @@ platform :ios, '8.0'
 target 'WWPageController_Example' do
   pod 'WWPageController', :path => '../'
 
-  target 'WWPageController_Tests' do
-    inherit! :search_paths
-  end
 end

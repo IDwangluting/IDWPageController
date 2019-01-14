@@ -22,13 +22,9 @@ page menu controller, reuse the controller,you can easy custom page menu.
                        DESC
 
   s.homepage         = 'https://github.com/IDwangluting/WWPageController'
-  # s.screenshots     = 'www.example.com/screenshots_1', 'www.example.com/screenshots_2'
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
   s.author           = { 'IDwangluting' => 'wangluting@zuoyebang.com' }
   s.source           = { :git => 'https://github.com/IDwangluting/WWPageController.git', :tag => s.version.to_s }
-  # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
-
-
   
   # s.resource_bundles = {
   #   'WWPageController' => ['WWPageController/Assets/*.png']
