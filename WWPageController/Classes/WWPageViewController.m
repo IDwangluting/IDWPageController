@@ -10,8 +10,7 @@
 #import "UIView+Frame.h"
 #import "WWPageMenu.h"
 
-const void *_SCROLLVIEW_OFFSET =
-&_SCROLLVIEW_OFFSET;
+const void *_SCROLLVIEW_OFFSET = &_SCROLLVIEW_OFFSET;
 
 @interface WWPageViewController () <UIScrollViewDelegate, WWPageMenuDelegate>
 
@@ -52,9 +51,8 @@ const void *_SCROLLVIEW_OFFSET =
 }
 
 - (void)_addScrollView {
-    if (_scrollView) {
-        return;
-    }
+    if (_scrollView)  return;
+    
     UIScrollView *scrollView = [self scrollView];
     [self.view addSubview:scrollView];
     
@@ -106,7 +104,6 @@ const void *_SCROLLVIEW_OFFSET =
 }
 
 - (void)configureMenuLayout {
-    
     CGFloat navigationHeight;
     if (!self.navigationController.navigationBar.hidden) {
         navigationHeight = 0.0;
@@ -137,11 +134,10 @@ const void *_SCROLLVIEW_OFFSET =
     }
     UIScrollView *scrollView = [self _isKindOfScrollViewController:self.currentDisplayController];
     if (scrollView != nil) {
-        [scrollView
-         addObserver:self
-         forKeyPath:NSStringFromSelector(@selector(contentOffset))
-         options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld
-         context:&_SCROLLVIEW_OFFSET];
+        [scrollView addObserver:self
+                     forKeyPath:NSStringFromSelector(@selector(contentOffset))
+                        options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld
+                        context:&_SCROLLVIEW_OFFSET];
     }
 }
 
@@ -157,8 +153,7 @@ const void *_SCROLLVIEW_OFFSET =
              forKeyPath:NSStringFromSelector(@selector(contentOffset))];
         } @catch (NSException *exception) {
             NSLog(@"exception is %@", exception);
-        } @finally {
-        }
+        } @finally {}
     }
 }
 
@@ -176,9 +171,8 @@ const void *_SCROLLVIEW_OFFSET =
 }
 
 - (UIScrollView *)scrollView {
-    if (_scrollView) {
-        return _scrollView;
-    }
+    if (_scrollView)  return _scrollView;
+    
     UIScrollView *scrollView = [[UIScrollView alloc] init];
     scrollView.pagingEnabled = YES;
     scrollView.backgroundColor = [UIColor clearColor];
@@ -192,7 +186,6 @@ const void *_SCROLLVIEW_OFFSET =
 
 - (void)viewDidLayoutSubviews {
     [super viewDidLayoutSubviews];
-    
     [self _layoutScrollViewSubviews];
 }
 
@@ -254,10 +247,9 @@ const void *_SCROLLVIEW_OFFSET =
     [_scrollView removeFromSuperview];
     _scrollView = nil;
     __block WWPageViewController *weakSelf = self;
-    [self.onScreen enumerateObjectsUsingBlock:^(id  _Nonnull obj, BOOL * _Nonnull stop) {
-        NSNumber *number = (NSNumber *)obj;
-        if ([number isKindOfClass:[NSNumber class]]) {
-            NSInteger index = [number integerValue];
+    [self.onScreen enumerateObjectsUsingBlock:^(NSNumber *  _Nonnull obj, BOOL * _Nonnull stop) {
+        if ([obj isKindOfClass:[NSNumber class]]) {
+            NSInteger index = [obj integerValue];
             UIViewController *vc = [weakSelf.offscreenCache objectForKey:@(index)];
             [weakSelf _removeChildController:vc];
         }
@@ -269,9 +261,8 @@ const void *_SCROLLVIEW_OFFSET =
 
 #pragma mark - |
 - (void)_addChildController:(UIViewController *)controller {
-    if (!controller) {
-        return;
-    }
+    if (!controller)  return;
+    
     [self addChildViewController:controller];
     [controller didMoveToParentViewController:self];
     [self.scrollView addSubview:controller.view];
@@ -279,32 +270,26 @@ const void *_SCROLLVIEW_OFFSET =
 
 - (void)_addChildControllerAtIndex:(NSInteger)index {
     UIViewController *vc = [self dequeueViewControllerWithIdentifier:nil atIndex:index];
-    if (!vc) {
-        return;
-    }
+    if (!vc)  return;
+    
     if (![self.onScreen containsObject:@(index)]) {
         [self addChildViewController:vc];
-        vc.view.frame = CGRectMake(index * self.view.bounds.size.width, 0, self.view.bounds.size.width, self.scrollView.bounds.size.height);
         [self.scrollView addSubview:vc.view];
         [vc didMoveToParentViewController:self];
         [self.onScreen addObject:@(index)];
-        
-    } else {
-        vc.view.frame = CGRectMake(index * self.view.bounds.size.width, 0, self.view.bounds.size.width, self.scrollView.bounds.size.height);
     }
+    vc.view.frame = CGRectMake(index * self.view.width, 0, self.view.width, self.scrollView.height);
 }
 
 - (void)_removeUnsedControllerAtIndex:(NSInteger)index controller:(UIViewController *)controller {
-    if (!controller) {
-        return;
-    }
+    if (!controller)  return;
+    
     [self _removeChildController:controller];
     [self.onScreen removeObject:@(index)];
 }
 
 - (void)_removeUnsedControllers {
-    [self.onScreen enumerateObjectsUsingBlock:^(id  _Nonnull obj, BOOL * _Nonnull stop) {
-        NSNumber *number = (NSNumber *)obj;
+    [self.onScreen enumerateObjectsUsingBlock:^(NSNumber *  _Nonnull number, BOOL * _Nonnull stop) {
         if ([number isKindOfClass:[NSNumber class]]) {
             NSInteger index = [number integerValue];
             UIViewController *controller = [self.offscreenCache objectForKey:@(index)];
@@ -344,16 +329,13 @@ const void *_SCROLLVIEW_OFFSET =
     [controller didMoveToParentViewController:nil];
 }
 
-- (UIViewController *)dequeueViewControllerWithIdentifier:(NSString *)identifier atIndex:(NSInteger)index;
-{
+- (UIViewController *)dequeueViewControllerWithIdentifier:(NSString *)identifier atIndex:(NSInteger)index {
     UIViewController * vc = [self.offscreenCache objectForKey:@(index)];
     if (vc) return vc;
     
     if ([self.delegate respondsToSelector:@selector(pageControllerForIndex:)]){
         vc = [self.delegate pageControllerForIndex:index];
-        if (vc){
-         [self.offscreenCache setObject:vc forKey:@(index)];
-        }
+        if (vc) [self.offscreenCache setObject:vc forKey:@(index)];
     }
     return vc;
 }
@@ -378,38 +360,33 @@ const void *_SCROLLVIEW_OFFSET =
 
 #pragma mark - UIScrollViewDelegate
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-    if (self.scrollView != scrollView) {
-        return;
-    }
+    if (self.scrollView != scrollView)  return;
     
     NSInteger currIndex = [self newPageIndex];
-    if (currIndex == self.selectedIndex) {
-        return;
-    }
-    self.selectedIndex = currIndex;
+    if (currIndex == self.selectedIndex)  return;
     
+    self.selectedIndex = currIndex;
     [self _updateControllers];
     if (scrollView.isDragging) {
         [self.menu slideMenuAtIndex:self.selectedIndex animation:YES];
     }
     
-    if (scrollView.contentOffset.y == 0) { return; }
+    if (scrollView.contentOffset.y == 0)  return;
+    
     CGPoint contentOffset = scrollView.contentOffset;
     contentOffset.y = 0.0;
     scrollView.contentOffset = contentOffset;
 }
 
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
-    if (self.scrollView != scrollView) {
-        return;
-    }
+    if (self.scrollView != scrollView)  return;
+    
     self.menu.userInteractionEnabled = NO;
 }
 
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
-    if (self.scrollView != scrollView) {
-        return;
-    }
+    if (self.scrollView != scrollView)  return;
+    
     self.menu.userInteractionEnabled = YES;
     [self _removeUnsedControllers];
     if ([self.delegate respondsToSelector:@selector(pageController:didSlideAtindex:)]) {
@@ -418,9 +395,8 @@ const void *_SCROLLVIEW_OFFSET =
 }
 
 - (void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView {
-    if (self.scrollView != scrollView) {
-        return;
-    }
+    if (self.scrollView != scrollView)  return;
+    
     self.menu.userInteractionEnabled = YES;
     [self _removeUnsedControllers];
     //[self _addObserverForCurrActiveController];
@@ -482,16 +458,10 @@ const void *_SCROLLVIEW_OFFSET =
         CGPoint oldOffset = [change[NSKeyValueChangeOldKey] CGPointValue];
         CGFloat oldOffsetY = oldOffset.y;
         CGFloat deltaOfOffsetY = offset.y - oldOffsetY;
-        
-        //NSLog(@"offsetY = %lf deltaOfOffsetY=%lf %lf\n", offsetY,deltaOfOffsetY, oldOffsetY);
         //不能滑动的不需要处理
-        if (object.frame.size.height >= object.contentSize.height) {
-            return;
-        }
+        if (object.height >= object.contentSize.height)  return;
         
-        if (oldOffset.y <= 0.0f && offset.y <= 0.0f) {
-            return;
-        }
+        if (oldOffset.y <= 0.0f && offset.y <= 0.0f)  return;
         
         if (deltaOfOffsetY >= 0 && offsetY>=0.0) {
             //向上滑动如果 大于inset时候也不需要处理
@@ -507,19 +477,16 @@ const void *_SCROLLVIEW_OFFSET =
             if (self.menuHeightConstraint.constant <= self.minimumTopInset) {
                 self.menuHeightConstraint.constant = self.minimumTopInset;
             }
-            if (offsetY >= self.minimumTopInset) {
-                if (self.menuHeightConstraint.constant != self.minimumTopInset) {
-                    self.menuHeightConstraint.constant = self.minimumTopInset;
-                }
+            if (offsetY >= self.minimumTopInset && self.menuHeightConstraint.constant != self.minimumTopInset) {
+                self.menuHeightConstraint.constant = self.minimumTopInset;
             }
-            //NSLog(@"==== up %lf\n",self.menuHeightConstraint.constant);
+            
         } else {
             //对于向下滑动时 如果已经到达最小的inset 不需要处理
             if (offsetY >= self.minimumTopInset && self.menuHeightConstraint.constant <= self.minimumTopInset) {
                 return;
             }
             if (offsetY > 0) {
-                
                 if (self.menuHeightConstraint.constant < self.menuHeight) {
                     self.menuHeightConstraint.constant -= deltaOfOffsetY;
                 } else {
@@ -532,16 +499,13 @@ const void *_SCROLLVIEW_OFFSET =
             } else {
                 self.menuHeightConstraint.constant = self.menuHeight;
             }
-            //NSLog(@"==== down %lf\n",self.menuHeightConstraint.constant);
         }
     }
 }
 
 - (void)willMoveToParentViewController:(UIViewController*)parent{
     [super willMoveToParentViewController:parent];
-
     self.scrollView.scrollEnabled = NO;
-
 }
 
 - (void)viewWillAppear:(BOOL)animated{

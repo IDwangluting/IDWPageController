@@ -10,7 +10,7 @@
 
 @implementation WWPageMenuItem
 
-- (id)initWithFrame:(CGRect)frame {
+- (instancetype)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
         self.userInteractionEnabled = YES;
     }
@@ -30,23 +30,16 @@
 - (void)updateColor {
     if (self.isSelected) {
         [self selected];
-    } else {
-        [self unselected];
+        return ;
     }
+    [self unselected];
 }
 
-- (void)setText:(NSString *)text {
-    
-}
+- (void)setText:(NSString *)text {}
 
+- (void)selected {}
 
-- (void)selected {
-    
-}
-
-- (void)unselected {
-    
-}
+- (void)unselected {}
 
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
     if ([self.delegate respondsToSelector:@selector(didClickedMenuLabel:)]) {

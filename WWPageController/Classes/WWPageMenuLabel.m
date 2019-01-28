@@ -7,10 +7,11 @@
 //
 
 #import "WWPageMenuLabel.h"
+#import "UIView+frame.h"
 
 @implementation WWPageMenuLabel
 
-- (id)initWithFrame:(CGRect)frame {
+- (instancetype)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
         self.label = [[UILabel alloc] init];
         self.label.textAlignment = NSTextAlignmentCenter;
@@ -22,7 +23,7 @@
 
 - (void)layoutSubviews {
     [super layoutSubviews];
-    self.label.frame = CGRectMake(0, 0, self.frame.size.width, self.frame.size.height);
+    self.label.frame = CGRectMake(0, 0, self.width, self.height);
 }
 
 - (void)selected {
@@ -42,9 +43,9 @@
 - (void)updateColor {
     if (self.isSelected) {
         [self selected];
-    } else {
-        [self unselected];
+        return ;
     }
+    [self unselected];
 }
 
 - (CGSize)sizeThatFits:(CGSize)size {
