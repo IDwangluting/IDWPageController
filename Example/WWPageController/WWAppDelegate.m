@@ -12,8 +12,7 @@
 @implementation WWAppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    UINavigationController * nav = [[UINavigationController alloc]initWithRootViewController:[[WWViewController alloc]init]];
-    self.window.rootViewController = nav;
+    self.window.rootViewController = [[WWViewController alloc]init];
     [self.window makeKeyAndVisible];
     self.window.frame = [UIScreen mainScreen].bounds;
     return YES;

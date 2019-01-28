@@ -28,23 +28,48 @@
     WWPageLineMenu *_menu;
 }
 
+- (WWTestViewController *)createWithColor:(UIColor *)color {
+    WWTestViewController * vc = [[WWTestViewController alloc]init];
+    vc.view.backgroundColor = color;
+    return vc ;
+}
+
+- (WWTestViewController *)yearEarningsSmartGroupListViewController{
+    if (!_yearEarningsSmartGroupListViewController)
+        _yearEarningsSmartGroupListViewController = [self createWithColor:[UIColor redColor]];
+    return _yearEarningsSmartGroupListViewController;
+}
+
+- (WWTestViewController *)allEarningsSmartGroupListViewController{
+    if (!_allEarningsSmartGroupListViewController)
+        _allEarningsSmartGroupListViewController = [self createWithColor:[UIColor greenColor]];
+    return _allEarningsSmartGroupListViewController;
+}
+
+- (WWTestViewController *)sucessRateSmartGroupListViewController{
+    if (!_sucessRateSmartGroupListViewController)
+        _sucessRateSmartGroupListViewController = [self createWithColor:[UIColor brownColor]];
+    return _sucessRateSmartGroupListViewController ;
+}
+
+- (WWTestViewController *)maxbackSmartGroupListViewController{
+    if (!_maxbackSmartGroupListViewController)
+        _maxbackSmartGroupListViewController = [self createWithColor:[UIColor darkGrayColor]];
+    return _maxbackSmartGroupListViewController;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.view.backgroundColor = [UIColor colorWithRGB:0xF5F5F5];
-    self.automaticallyAdjustsScrollViewInsets = NO;
-    self.edgesForExtendedLayout = UIRectEdgeAll;
-    self.navigationController.navigationBar.translucent = YES;
     self.title = @"智选组合";
-    self.view.backgroundColor = [UIColor whiteColor];
     self.titles = [NSArray arrayWithObjects:@"年化收益", @"总收益", @"成功率", @"最大回撤", nil];
     [self pageMenu];
     self.delegate = self;
     [self reloadData];
 }
 
--(void)viewDidLayoutSubviews {
+- (void)viewDidLayoutSubviews {
     [super viewDidLayoutSubviews];
-    self.menu.y  = self.navigationController.navigationBar.bottom;
+    self.menu.y  = 100;
     self.scrollView.y = self.menu.bottom;
 }
 
@@ -56,8 +81,8 @@
         _menu.lineColor = [UIColor colorWithRGB:0xFF5A1C];
         _menu.font = [UIFont systemFontOfSize:16];
         _menu.bottomViewBGColor = [UIColor colorWithRGB:0xF2F3F6];
-        _menu.bottomViewHeight = 0;
-        _menu.lineWidth = 20;
+        _menu.bottomViewHeight = 2;
+        _menu.lineWidth = self.view.width /(self.titles.count * 3);
         [_menu sizeToFit];
         _menu.frame = CGRectMake(0, 100, self.view.width / (self.titles.count * 2 + 1), 45);
         _menu.backgroundColor = [UIColor whiteColor];
@@ -89,10 +114,8 @@
     }
 }
 
-
-
 - (NSString*)pageController:(WWPageViewController *)controller titleForPageIndex:(NSInteger)index {
-    return self.titles[index];
+    return [self.titles objectAtIndex:index];
 }
 
 - (WWPageMenu *)pageMenu:(WWPageViewController *)controller {
@@ -103,43 +126,12 @@
     return [UIColor colorWithRGB:0xFF7700];
 }
 
-- (void)pageController:(WWPageViewController *)controller didSlideAtindex:(NSInteger)index {}
-
-- (void)pageController:(WWPageViewController *)controller didSelectedAtindex:(NSInteger)index {}
-
-
-
-- (WWTestViewController *)yearEarningsSmartGroupListViewController{
-    if (!_yearEarningsSmartGroupListViewController) {
-        _yearEarningsSmartGroupListViewController = [[WWTestViewController alloc]init];
-        _yearEarningsSmartGroupListViewController.view.backgroundColor = [UIColor redColor];
-    }
-    return _yearEarningsSmartGroupListViewController;
+- (void)pageController:(WWPageViewController *)controller didSlideAtindex:(NSInteger)index {
+    
 }
 
-- (WWTestViewController *)allEarningsSmartGroupListViewController{
-    if (!_allEarningsSmartGroupListViewController) {
-        _allEarningsSmartGroupListViewController = [[WWTestViewController alloc]init];
-        _allEarningsSmartGroupListViewController.view.backgroundColor = [UIColor greenColor];
-    }
-    return _allEarningsSmartGroupListViewController;
+- (void)pageController:(WWPageViewController *)controller didSelectedAtindex:(NSInteger)index {
+    
 }
-
-- (WWTestViewController *)sucessRateSmartGroupListViewController{
-    if (!_sucessRateSmartGroupListViewController) {
-        _sucessRateSmartGroupListViewController = [[WWTestViewController alloc]init];
-        _sucessRateSmartGroupListViewController.view.backgroundColor = [UIColor brownColor];
-    }
-    return _sucessRateSmartGroupListViewController;
-}
-
-- (WWTestViewController *)maxbackSmartGroupListViewController{
-    if (!_maxbackSmartGroupListViewController) {
-        _maxbackSmartGroupListViewController = [[WWTestViewController alloc]init];
-        _sucessRateSmartGroupListViewController.view.backgroundColor = [UIColor blackColor];
-    }
-    return _maxbackSmartGroupListViewController;
-}
-
 
 @end
