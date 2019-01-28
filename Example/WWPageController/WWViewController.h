@@ -7,7 +7,8 @@
 //
 
 @import UIKit;
+#import <WWPageController/WWPageViewController.h>
 
-@interface WWViewController : UIViewController
+@interface WWViewController : WWPageViewController
 
 @end

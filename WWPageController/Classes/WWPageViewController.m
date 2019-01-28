@@ -17,13 +17,13 @@ const void *_SCROLLVIEW_OFFSET =
 
 @property (nonatomic, strong) NSCache *offscreenCache;
 @property (nonatomic, strong) NSMutableSet *onScreen;
-//默认当前预加载数量：左+右，default 1
-@property (nonatomic, assign) NSInteger preloadCnt;
-@property (nonatomic, assign) CGFloat menuPostionY;
 
 @property (nonatomic, strong) NSLayoutConstraint *menuHeightConstraint;
 @property (nonatomic, weak) UIViewController *currentDisplayController;
-@property (nonatomic, assign) CGFloat menuHeight;
+@property (nonatomic) CGFloat menuHeight;
+//默认当前预加载数量：左+右，default 1
+@property (nonatomic) NSInteger preloadCnt;
+@property (nonatomic) CGFloat menuPostionY;
 
 @end
 
@@ -259,7 +259,6 @@ const void *_SCROLLVIEW_OFFSET =
         if ([number isKindOfClass:[NSNumber class]]) {
             NSInteger index = [number integerValue];
             UIViewController *vc = [weakSelf.offscreenCache objectForKey:@(index)];
-            ;
             [weakSelf _removeChildController:vc];
         }
     }];
@@ -337,9 +336,8 @@ const void *_SCROLLVIEW_OFFSET =
 }
 
 - (void)_removeChildController:(UIViewController *)controller {
-    if (!controller) {
-        return;
-    }
+    if (!controller)  return ;
+    
     [controller.view removeFromSuperview];
     [controller willMoveToParentViewController:nil];
     [controller removeFromParentViewController];
@@ -348,15 +346,13 @@ const void *_SCROLLVIEW_OFFSET =
 
 - (UIViewController *)dequeueViewControllerWithIdentifier:(NSString *)identifier atIndex:(NSInteger)index;
 {
-    UIViewController *vc = [self.offscreenCache objectForKey:@(index)];
-    if (!vc) {
-        
-        if ([self.delegate respondsToSelector:@selector(pageControllerForIndex:)]){
-            vc = [self.delegate pageControllerForIndex:index];
-            
-            if (vc){
-                [self.offscreenCache setObject:vc forKey:@(index)];
-            }
+    UIViewController * vc = [self.offscreenCache objectForKey:@(index)];
+    if (vc) return vc;
+    
+    if ([self.delegate respondsToSelector:@selector(pageControllerForIndex:)]){
+        vc = [self.delegate pageControllerForIndex:index];
+        if (vc){
+         [self.offscreenCache setObject:vc forKey:@(index)];
         }
     }
     return vc;

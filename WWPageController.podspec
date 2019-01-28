@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'WWPageController'
-  s.version          = '0.1.0'
+  s.version          = '0.1.1 '
   s.summary          = 'A short description of WWPageController.'
 
 # This description is used to generate tags and improve search results.
@@ -36,5 +36,5 @@ page menu controller, reuse the controller,you can easy custom page menu.
     s.ios.deployment_target = '8.0'
     s.source_files = 'WWPageController/Classes/**/*'
     s.frameworks = 'UIKit'
-    s.dependency 'WWBaseLib'
+    s.dependency 'WWBaseLib','~>0.0.4'
 end

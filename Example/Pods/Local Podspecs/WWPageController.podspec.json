@@ -22,7 +22,7 @@
   "frameworks": "UIKit",
   "dependencies": {
     "WWBaseLib": [
-
+      "~>0.0.4"
     ]
   }
 }

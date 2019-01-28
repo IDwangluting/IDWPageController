@@ -1,23 +1,29 @@
 PODS:
-  - WWBaseLib (0.0.2)
+  - WWBaseLib (0.0.4)
   - WWPageController (0.1.0):
-    - WWBaseLib
+    - WWBaseLib (~> 0.0.4)
+  - YYKit (1.0.9):
+    - YYKit/no-arc (= 1.0.9)
+  - YYKit/no-arc (1.0.9)
 
 DEPENDENCIES:
   - WWPageController (from `../`)
+  - YYKit
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
     - WWBaseLib
+    - YYKit
 
 EXTERNAL SOURCES:
   WWPageController:
     :path: "../"
 
 SPEC CHECKSUMS:
-  WWBaseLib: 1888781d7bdb8b87826d3ad37997034bc685e2f3
-  WWPageController: 325dda8611b44deb923d9b9aada20606b939e1d4
+  WWBaseLib: 558050050bc29078e05d2a4c858c9f451f36c36a
+  WWPageController: 6b247ab8751e957470bfae36fb5b2b3af1b75349
+  YYKit: 7cda43304a8dc3696c449041e2cb3107b4e236e7
 
-PODFILE CHECKSUM: e797155495b0af569f0c5c366ef77018f7a734bc
+PODFILE CHECKSUM: ec7c949226102c1c29fc7ab493fdb0ed80796eee
 
 COCOAPODS: 1.5.3
